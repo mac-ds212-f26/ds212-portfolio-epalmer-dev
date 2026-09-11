@@ -1,0 +1,69 @@
+---
+title: "HW1_212"
+---
+
+```{r}
+library(tidyverse)
+library(mosaic)
+
+# Using R
+# Option 1: tidytuesdayR R package 
+## install.packages("tidytuesdayR")
+
+tuesdata <- tidytuesdayR::tt_load('2026-09-08')
+## OR
+tuesdata <- tidytuesdayR::tt_load(2026, week = 36)
+
+cafe <- tuesdata$cafe
+cappuccino_index <- tuesdata$cappuccino_index
+
+# Option 2: Read directly from GitHub
+
+cafe <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-09-08/cafe.csv')
+cappuccino_index <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-09-08/cappuccino_index.csv')
+```
+
+# Cappuccino index = (price of cappuccino/hourly wage) x 60
+
+# Arrange descending index for all countries and then filter for countries with 10 or more entries
+
+```{r}
+cappuccino_index %>%
+  arrange(desc(index))
+
+index_filtered <- cappuccino_index %>%
+  filter(n >= 10)
+index_filtered
+```
+
+# Join the 2 datasets to only use countries with 10 or more entries and group by country
+
+```{r}
+cappuccino <- cafe %>%
+  inner_join(index_filtered, by = "country") %>%
+  group_by(country) %>%
+    summarize(
+    original_currency = first(original_currency),
+    across(where(is.numeric), ~mean(.x, na.rm = TRUE)))
+cappuccino
+```
+
+# Research Question: Do countries with original currency of Euros tend to have a better cappuccino index?
+
+# Make some graphs!
+
+```{r}
+cappuccino_euro <- cappuccino %>%
+  filter(original_currency == "EUR - Euro")
+cappuccino_euro
+
+cappuccino_noteuro <- cappuccino %>%
+  filter(original_currency != "EUR - Euro")
+cappuccino_noteuro
+
+plot1 <- cappuccino_euro %>%
+  ggplot(aes(x = country, y = index)) +
+  geom_point() 
+plot1
+```
+
