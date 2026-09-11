@@ -43,6 +43,17 @@
     ]
   },
   {
+    "objectID": "tt/HW1_212.html",
+    "href": "tt/HW1_212.html",
+    "title": "HW1_212",
+    "section": "",
+    "text": "Codelibrary(tidyverse)\nlibrary(mosaic)\n\n# Using R\n# Option 1: tidytuesdayR R package \n## install.packages(\"tidytuesdayR\")\n\ntuesdata &lt;- tidytuesdayR::tt_load('2026-09-08')\n## OR\ntuesdata &lt;- tidytuesdayR::tt_load(2026, week = 36)\n\ncafe &lt;- tuesdata$cafe\ncappuccino_index &lt;- tuesdata$cappuccino_index\n\n# Option 2: Read directly from GitHub\n\ncafe &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-09-08/cafe.csv')\ncappuccino_index &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-09-08/cappuccino_index.csv')\n\n\nCappuccino index = (price of cappuccino/hourly wage) x 60\nArrange descending index for all countries and then filter for countries with 10 or more entries\n\nCodecappuccino_index %&gt;%\n  arrange(desc(index))\n\n# A tibble: 87 × 6\n   country     index     n minutes seconds index_as_time\n   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;        \n 1 Pakistan     277.     2     277       2 277:02       \n 2 Qatar        187.     1     186      59 186:59       \n 3 Djibouti     173.     1     172      45 172:45       \n 4 India        172.    11     172      10 172:10       \n 5 Vietnam      162.     6     162      25 162:25       \n 6 Sri Lanka    138.     1     137      35 137:35       \n 7 Nicaragua    124.     1     123      52 123:52       \n 8 Oman         119.     3     118      52 118:52       \n 9 Philippines  111.    11     110      34 110:34       \n10 Egypt        104.     1     104      24 104:24       \n# ℹ 77 more rows\n\nCodeindex_filtered &lt;- cappuccino_index %&gt;%\n  filter(n &gt;= 10)\nindex_filtered\n\n# A tibble: 36 × 6\n   country     index     n minutes seconds index_as_time\n   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;        \n 1 Australia    10.1   171      10       4 10:04        \n 2 Italy        11.9    15      11      51 11:51        \n 3 New Zealand  12.7    35      12      44 12:44        \n 4 Switzerland  14.4    18      14      24 14:24        \n 5 Netherlands  14.9    73      14      51 14:51        \n 6 Germany      15.0   167      14      58 14:58        \n 7 Norway       15.5    22      15      29 15:29        \n 8 Belgium      15.8    19      15      45 15:45        \n 9 Ireland      16.0    45      15      57 15:57        \n10 Canada       16.2   130      16      11 16:11        \n# ℹ 26 more rows\n\n\nJoin the 2 datasets to only use countries with 10 or more entries and group by country\n\nCodecappuccino &lt;- cafe %&gt;%\n  inner_join(index_filtered, by = \"country\") %&gt;%\n  group_by(country) %&gt;%\n    summarize(\n    original_currency = first(original_currency),\n    across(where(is.numeric), ~mean(.x, na.rm = TRUE)))\ncappuccino\n\n# A tibble: 36 × 10\n   country  original_currency hourly_wage_gbp price_gbp  price hourly_wage index\n   &lt;chr&gt;    &lt;chr&gt;                       &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;\n 1 Argenti… ARS - Argentine …            2.39      2.40 4.85e3      4830.   60.3\n 2 Austral… AUD - Australian…           16.4       2.75 5.25e0        31.3  10.1\n 3 Austria  EUR - Euro                  11.2       3.56 4.15e0        13.1  19.0\n 4 Belgium  EUR - Euro                  13.5       3.55 4.14e0        15.8  15.8\n 5 Brazil   BRL - Brazilian …            2.27      2.15 1.47e1        15.6  56.8\n 6 Canada   CAD - Canadian D…           10.3       2.77 5.21e0        19.3  16.2\n 7 Chile    CLP - Chilean Pe…            3.36      2.73 3.37e3      4136    48.9\n 8 Czechia  CZK - Czech Koru…            5.90      2.79 7.91e1       167.   28.4\n 9 Denmark  DKK - Danish Kro…           16.7       5.41 4.73e1       146.   19.4\n10 Finland  EUR - Euro                  14.7       4.02 4.69e0        17.1  16.4\n# ℹ 26 more rows\n# ℹ 3 more variables: n &lt;dbl&gt;, minutes &lt;dbl&gt;, seconds &lt;dbl&gt;\n\n\nResearch Question: Do countries with original currency of Euros tend to have a better cappuccino index?\nMake some graphs!\n\nCodecappuccino_euro &lt;- cappuccino %&gt;%\n  filter(original_currency == \"EUR - Euro\")\ncappuccino_euro\n\n# A tibble: 12 × 10\n   country   original_currency hourly_wage_gbp price_gbp price hourly_wage index\n   &lt;chr&gt;     &lt;chr&gt;                       &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;\n 1 Austria   EUR - Euro                  11.2       3.56  4.15       13.1   19.0\n 2 Belgium   EUR - Euro                  13.5       3.55  4.14       15.8   15.8\n 3 Finland   EUR - Euro                  14.7       4.02  4.69       17.1   16.4\n 4 France    EUR - Euro                  11.6       4.11  4.80       13.6   21.2\n 5 Germany   EUR - Euro                  13.4       3.35  3.92       15.7   15.0\n 6 Greece    EUR - Euro                   4.63      2.74  3.20        5.41  35.5\n 7 Ireland   EUR - Euro                  12.9       3.44  4.02       15.1   16.0\n 8 Italy     EUR - Euro                   8.19      1.62  1.89        9.57  11.9\n 9 Netherla… EUR - Euro                  13.8       3.42  4.00       16.1   14.9\n10 Portugal  EUR - Euro                   5.78      2.89  3.37        6.75  30.0\n11 Slovakia  EUR - Euro                   6.42      2.70  3.16        7.5   25.3\n12 Spain     EUR - Euro                   7.68      2.42  2.83        8.96  18.9\n# ℹ 3 more variables: n &lt;dbl&gt;, minutes &lt;dbl&gt;, seconds &lt;dbl&gt;\n\nCodecappuccino_noteuro &lt;- cappuccino %&gt;%\n  filter(original_currency != \"EUR - Euro\")\ncappuccino_noteuro\n\n# A tibble: 24 × 10\n   country  original_currency hourly_wage_gbp price_gbp  price hourly_wage index\n   &lt;chr&gt;    &lt;chr&gt;                       &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;\n 1 Argenti… ARS - Argentine …           2.39       2.40 4.85e3      4830.   60.3\n 2 Austral… AUD - Australian…          16.4        2.75 5.25e0        31.3  10.1\n 3 Brazil   BRL - Brazilian …           2.27       2.15 1.47e1        15.6  56.8\n 4 Canada   CAD - Canadian D…          10.3        2.77 5.21e0        19.3  16.2\n 5 Chile    CLP - Chilean Pe…           3.36       2.73 3.37e3      4136    48.9\n 6 Czechia  CZK - Czech Koru…           5.90       2.79 7.91e1       167.   28.4\n 7 Denmark  DKK - Danish Kro…          16.7        5.41 4.73e1       146.   19.4\n 8 Hungary  HUF - Forint                5.70       2.89 1.22e3      2413.   30.4\n 9 India    INR - Indian Rup…           0.684      1.96 2.52e2        88   172. \n10 Israel   ILS - New Israel…          11.8        3.69 1.49e1        47.6  18.8\n# ℹ 14 more rows\n# ℹ 3 more variables: n &lt;dbl&gt;, minutes &lt;dbl&gt;, seconds &lt;dbl&gt;\n\nCodeplot1 &lt;- cappuccino_euro %&gt;%\n  ggplot(aes(x = country, y = index)) +\n  geom_point() \nplot1",
+    "crumbs": [
+      "TidyTuesday",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>HW1_212</span>"
+    ]
+  },
+  {
     "objectID": "pcl/pcl.html",
     "href": "pcl/pcl.html",
     "title": "Pre-Class Learning Summaries",
@@ -50,7 +61,7 @@
     "text": "R",
     "crumbs": [
       "Pre-Class Learnings",
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pre-Class Learning Summaries</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Pre-Class Learning Summaries</span>"
     ]
   },
   {
@@ -61,7 +72,7 @@
     "text": "Quarto\n\n\n\nfrom qmd4sci.njtierney.com",
     "crumbs": [
       "Pre-Class Learnings",
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Pre-Class Learning Summaries</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Pre-Class Learning Summaries</span>"
     ]
   },
   {
@@ -72,7 +83,7 @@
     "text": "Add content here",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>ICA Sample 1</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>ICA Sample 1</span>"
     ]
   },
   {
@@ -83,7 +94,7 @@
     "text": "Add content here",
     "crumbs": [
       "In-Class Activities",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>ICA Sample 2</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>ICA Sample 2</span>"
     ]
   },
   {
@@ -94,7 +105,7 @@
     "text": "Add content here",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Extra Sample 1</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Extra Sample 1</span>"
     ]
   },
   {
@@ -105,7 +116,7 @@
     "text": "Add content here",
     "crumbs": [
       "Extras",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Extra Sample 2</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Extra Sample 2</span>"
     ]
   }
 ]
