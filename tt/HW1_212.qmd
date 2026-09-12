@@ -5,6 +5,8 @@ title: "HW1_212"
 ```{r}
 library(tidyverse)
 library(mosaic)
+library(patchwork)
+library(ggplot2)
 
 # Using R
 # Option 1: tidytuesdayR R package 
@@ -23,9 +25,13 @@ cafe <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidyt
 cappuccino_index <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-09-08/cappuccino_index.csv')
 ```
 
-# Cappuccino index = (price of cappuccino/hourly wage) x 60
+Cappuccino index = (price of cappuccino/hourly wage) x 60
 
-# Arrange descending index for all countries and then filter for countries with 10 or more entries
+# Reseach Question: Is there a clear difference in the Cappuccino Index between countries that use Euro currency vs non-Euro currency?
+
+# Process
+
+Data Wrangling: Arrange descending index for all countries and then filter for countries with 10 or more entries
 
 ```{r}
 cappuccino_index %>%
@@ -36,7 +42,7 @@ index_filtered <- cappuccino_index %>%
 index_filtered
 ```
 
-# Join the 2 datasets to only use countries with 10 or more entries and group by country
+Join the 2 datasets to only use countries with 10 or more entries and group by country
 
 ```{r}
 cappuccino <- cafe %>%
@@ -48,9 +54,7 @@ cappuccino <- cafe %>%
 cappuccino
 ```
 
-# Research Question: Do countries with original currency of Euros tend to have a better cappuccino index?
-
-# Make some graphs!
+Make some graphs to better understand the relationships!
 
 ```{r}
 cappuccino_euro <- cappuccino %>%
@@ -63,7 +67,37 @@ cappuccino_noteuro
 
 plot1 <- cappuccino_euro %>%
   ggplot(aes(x = country, y = index)) +
-  geom_point() 
+  geom_col() 
 plot1
+
+plot2 <- cappuccino_noteuro %>%
+  ggplot(aes(x = country, y = index)) +
+  geom_col()
+plot2
 ```
 
+```{r}
+plot1 <- cappuccino_euro %>%
+  ggplot(aes(y = index)) +
+  geom_boxplot(fill = "#77aadd") +
+  labs(x = "Euro Currency", y = "Cappuccino Index") +
+  theme_minimal()
+plot1
+
+plot2 <- cappuccino_noteuro %>%
+  ggplot(aes(y = index,)) +
+  geom_boxplot(fill = "#ee8866") +
+  labs(x = "Other Currency", y = "Cappuccino Index") +
+  theme_minimal()
+plot2
+
+(plot1 + plot2) & 
+  coord_cartesian(ylim = c(0, 180)) & 
+  theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()) &
+  plot_annotation(title = "The Cappucino Index", subtitle = "In Euro vs Non-Euro Using Countries", caption = "Eliza Palmer, 9/14/2026, Data from James Hoffmann",
+                  theme = theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 16), plot.subtitle = element_text(hjust = 0.5), plot.caption = element_text(size = 6)))
+
+
+```
+
+# Conclusion: There is a clear difference between countries that use Euro currency and countries that don't. However their means are relatively similar as seen on the graph. India is a huge outlier on the graph, which was expected as seen in the video by James Hoffmann. Overall, there are many more countries in the non euro dataset, meaning that it isn't surprising for there to be a much wider span of indexes. 
