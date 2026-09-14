@@ -437,11 +437,9 @@ cookieconsent.run({
         <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#cappuccino-index-price-of-cappuccinohourly-wage-x-60" id="toc-cappuccino-index-price-of-cappuccinohourly-wage-x-60" class="nav-link active" data-scroll-target="#cappuccino-index-price-of-cappuccinohourly-wage-x-60">Cappuccino index = (price of cappuccino/hourly wage) x 60</a></li>
-  <li><a href="#arrange-descending-index-for-all-countries-and-then-filter-for-countries-with-10-or-more-entries" id="toc-arrange-descending-index-for-all-countries-and-then-filter-for-countries-with-10-or-more-entries" class="nav-link" data-scroll-target="#arrange-descending-index-for-all-countries-and-then-filter-for-countries-with-10-or-more-entries">Arrange descending index for all countries and then filter for countries with 10 or more entries</a></li>
-  <li><a href="#join-the-2-datasets-to-only-use-countries-with-10-or-more-entries-and-group-by-country" id="toc-join-the-2-datasets-to-only-use-countries-with-10-or-more-entries-and-group-by-country" class="nav-link" data-scroll-target="#join-the-2-datasets-to-only-use-countries-with-10-or-more-entries-and-group-by-country">Join the 2 datasets to only use countries with 10 or more entries and group by country</a></li>
-  <li><a href="#research-question-do-countries-with-original-currency-of-euros-tend-to-have-a-better-cappuccino-index" id="toc-research-question-do-countries-with-original-currency-of-euros-tend-to-have-a-better-cappuccino-index" class="nav-link" data-scroll-target="#research-question-do-countries-with-original-currency-of-euros-tend-to-have-a-better-cappuccino-index">Research Question: Do countries with original currency of Euros tend to have a better cappuccino index?</a></li>
-  <li><a href="#make-some-graphs" id="toc-make-some-graphs" class="nav-link" data-scroll-target="#make-some-graphs">Make some graphs!</a></li>
+<li><a href="#reseach-question-is-there-a-clear-difference-in-the-cappuccino-index-between-countries-that-use-euro-currency-vs-non-euro-currency" id="toc-reseach-question-is-there-a-clear-difference-in-the-cappuccino-index-between-countries-that-use-euro-currency-vs-non-euro-currency" class="nav-link active" data-scroll-target="#reseach-question-is-there-a-clear-difference-in-the-cappuccino-index-between-countries-that-use-euro-currency-vs-non-euro-currency">Reseach Question: Is there a clear difference in the Cappuccino Index between countries that use Euro currency vs non-Euro currency?</a></li>
+  <li><a href="#process" id="toc-process" class="nav-link" data-scroll-target="#process">Process</a></li>
+  <li><a href="#conclusion-there-is-a-clear-difference-between-countries-that-use-euro-currency-and-countries-that-dont.-however-their-means-are-relatively-similar-as-seen-on-the-graph.-india-is-a-huge-outlier-on-the-graph-which-was-expected-as-seen-in-the-video-by-james-hoffmann.-overall-there-are-many-more-countries-in-the-non-euro-dataset-meaning-that-it-isnt-surprising-for-there-to-be-a-much-wider-span-of-indexes." id="toc-conclusion-there-is-a-clear-difference-between-countries-that-use-euro-currency-and-countries-that-dont.-however-their-means-are-relatively-similar-as-seen-on-the-graph.-india-is-a-huge-outlier-on-the-graph-which-was-expected-as-seen-in-the-video-by-james-hoffmann.-overall-there-are-many-more-countries-in-the-non-euro-dataset-meaning-that-it-isnt-surprising-for-there-to-be-a-much-wider-span-of-indexes." class="nav-link" data-scroll-target="#conclusion-there-is-a-clear-difference-between-countries-that-use-euro-currency-and-countries-that-dont.-however-their-means-are-relatively-similar-as-seen-on-the-graph.-india-is-a-huge-outlier-on-the-graph-which-was-expected-as-seen-in-the-video-by-james-hoffmann.-overall-there-are-many-more-countries-in-the-non-euro-dataset-meaning-that-it-isnt-surprising-for-there-to-be-a-much-wider-span-of-indexes.">Conclusion: There is a clear difference between countries that use Euro currency and countries that don’t. However their means are relatively similar as seen on the graph. India is a huge outlier on the graph, which was expected as seen in the video by James Hoffmann. Overall, there are many more countries in the non euro dataset, meaning that it isn’t surprising for there to be a much wider span of indexes.</a></li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -463,26 +461,30 @@ cookieconsent.run({
 </header><div class="cell">
 <details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(mosaic)</span>
-<span id="cb1-3"><a href="#cb1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co"># Using R</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># Option 1: tidytuesdayR R package </span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="do">## install.packages("tidytuesdayR")</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a></span>
-<span id="cb1-8"><a href="#cb1-8"></a>tuesdata <span class="ot">&lt;-</span> tidytuesdayR<span class="sc">::</span><span class="fu">tt_load</span>(<span class="st">'2026-09-08'</span>)</span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="do">## OR</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a>tuesdata <span class="ot">&lt;-</span> tidytuesdayR<span class="sc">::</span><span class="fu">tt_load</span>(<span class="dv">2026</span>, <span class="at">week =</span> <span class="dv">36</span>)</span>
-<span id="cb1-11"><a href="#cb1-11"></a></span>
-<span id="cb1-12"><a href="#cb1-12"></a>cafe <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>cafe</span>
-<span id="cb1-13"><a href="#cb1-13"></a>cappuccino_index <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>cappuccino_index</span>
-<span id="cb1-14"><a href="#cb1-14"></a></span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="co"># Option 2: Read directly from GitHub</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co"># Using R</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co"># Option 1: tidytuesdayR R package </span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="do">## install.packages("tidytuesdayR")</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10"></a>tuesdata <span class="ot">&lt;-</span> tidytuesdayR<span class="sc">::</span><span class="fu">tt_load</span>(<span class="st">'2026-09-08'</span>)</span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="do">## OR</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a>tuesdata <span class="ot">&lt;-</span> tidytuesdayR<span class="sc">::</span><span class="fu">tt_load</span>(<span class="dv">2026</span>, <span class="at">week =</span> <span class="dv">36</span>)</span>
+<span id="cb1-13"><a href="#cb1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14"></a>cafe <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>cafe</span>
+<span id="cb1-15"><a href="#cb1-15"></a>cappuccino_index <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>cappuccino_index</span>
 <span id="cb1-16"><a href="#cb1-16"></a></span>
-<span id="cb1-17"><a href="#cb1-17"></a>cafe <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-09-08/cafe.csv'</span>)</span>
-<span id="cb1-18"><a href="#cb1-18"></a>cappuccino_index <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-09-08/cappuccino_index.csv'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="co"># Option 2: Read directly from GitHub</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a></span>
+<span id="cb1-19"><a href="#cb1-19"></a>cafe <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-09-08/cafe.csv'</span>)</span>
+<span id="cb1-20"><a href="#cb1-20"></a>cappuccino_index <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-09-08/cappuccino_index.csv'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<section id="cappuccino-index-price-of-cappuccinohourly-wage-x-60" class="level1"><h1>Cappuccino index = (price of cappuccino/hourly wage) x 60</h1>
-</section><section id="arrange-descending-index-for-all-countries-and-then-filter-for-countries-with-10-or-more-entries" class="level1"><h1>Arrange descending index for all countries and then filter for countries with 10 or more entries</h1>
+<p>Cappuccino index = (price of cappuccino/hourly wage) x 60</p>
+<section id="reseach-question-is-there-a-clear-difference-in-the-cappuccino-index-between-countries-that-use-euro-currency-vs-non-euro-currency" class="level1"><h1>Reseach Question: Is there a clear difference in the Cappuccino Index between countries that use Euro currency vs non-Euro currency?</h1>
+</section><section id="process" class="level1"><h1>Process</h1>
+<p>Data Wrangling: Arrange descending index for all countries and then filter for countries with 10 or more entries</p>
 <div class="cell">
 <details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>cappuccino_index <span class="sc">%&gt;%</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(index))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -522,7 +524,7 @@ cookieconsent.run({
 # ℹ 26 more rows</code></pre>
 </div>
 </div>
-</section><section id="join-the-2-datasets-to-only-use-countries-with-10-or-more-entries-and-group-by-country" class="level1"><h1>Join the 2 datasets to only use countries with 10 or more entries and group by country</h1>
+<p>Join the 2 datasets to only use countries with 10 or more entries and group by country</p>
 <div class="cell">
 <details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>cappuccino <span class="ot">&lt;-</span> cafe <span class="sc">%&gt;%</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a>  <span class="fu">inner_join</span>(index_filtered, <span class="at">by =</span> <span class="st">"country"</span>) <span class="sc">%&gt;%</span></span>
@@ -549,8 +551,7 @@ cookieconsent.run({
 # ℹ 3 more variables: n &lt;dbl&gt;, minutes &lt;dbl&gt;, seconds &lt;dbl&gt;</code></pre>
 </div>
 </div>
-</section><section id="research-question-do-countries-with-original-currency-of-euros-tend-to-have-a-better-cappuccino-index" class="level1"><h1>Research Question: Do countries with original currency of Euros tend to have a better cappuccino index?</h1>
-</section><section id="make-some-graphs" class="level1"><h1>Make some graphs!</h1>
+<p>Make some graphs to better understand the relationships!</p>
 <div class="cell">
 <details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>cappuccino_euro <span class="ot">&lt;-</span> cappuccino <span class="sc">%&gt;%</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a>  <span class="fu">filter</span>(original_currency <span class="sc">==</span> <span class="st">"EUR - Euro"</span>)</span>
@@ -595,7 +596,7 @@ cookieconsent.run({
 </div>
 <details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>plot1 <span class="ot">&lt;-</span> cappuccino_euro <span class="sc">%&gt;%</span></span>
 <span id="cb12-2"><a href="#cb12-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> country, <span class="at">y =</span> index)) <span class="sc">+</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a>  <span class="fu">geom_point</span>() </span>
+<span id="cb12-3"><a href="#cb12-3"></a>  <span class="fu">geom_col</span>() </span>
 <span id="cb12-4"><a href="#cb12-4"></a>plot1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display">
 <div>
@@ -603,7 +604,55 @@ cookieconsent.run({
 </figure>
 </div>
 </div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>plot2 <span class="ot">&lt;-</span> cappuccino_noteuro <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> country, <span class="at">y =</span> index)) <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a>  <span class="fu">geom_col</span>()</span>
+<span id="cb13-4"><a href="#cb13-4"></a>plot2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="HW1_212_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>plot1 <span class="ot">&lt;-</span> cappuccino_euro <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> index)) <span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"#77aadd"</span>) <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Euro Currency"</span>, <span class="at">y =</span> <span class="st">"Cappuccino Index"</span>) <span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb14-6"><a href="#cb14-6"></a>plot1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="HW1_212_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>plot2 <span class="ot">&lt;-</span> cappuccino_noteuro <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> index,)) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"#ee8866"</span>) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Other Currency"</span>, <span class="at">y =</span> <span class="st">"Cappuccino Index"</span>) <span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb15-6"><a href="#cb15-6"></a>plot2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="HW1_212_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>(plot1 <span class="sc">+</span> plot2) <span class="sc">&amp;</span> </span>
+<span id="cb16-2"><a href="#cb16-2"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">180</span>)) <span class="sc">&amp;</span> </span>
+<span id="cb16-3"><a href="#cb16-3"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(), <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>()) <span class="sc">&amp;</span></span>
+<span id="cb16-4"><a href="#cb16-4"></a>  <span class="fu">plot_annotation</span>(<span class="at">title =</span> <span class="st">"The Cappucino Index"</span>, <span class="at">subtitle =</span> <span class="st">"In Euro vs Non-Euro Using Countries"</span>, <span class="at">caption =</span> <span class="st">"Eliza Palmer, 9/14/2026, Data from James Hoffmann"</span>,</span>
+<span id="cb16-5"><a href="#cb16-5"></a>                  <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">16</span>), <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>), <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="HW1_212_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="conclusion-there-is-a-clear-difference-between-countries-that-use-euro-currency-and-countries-that-dont.-however-their-means-are-relatively-similar-as-seen-on-the-graph.-india-is-a-huge-outlier-on-the-graph-which-was-expected-as-seen-in-the-video-by-james-hoffmann.-overall-there-are-many-more-countries-in-the-non-euro-dataset-meaning-that-it-isnt-surprising-for-there-to-be-a-much-wider-span-of-indexes." class="level1"><h1>Conclusion: There is a clear difference between countries that use Euro currency and countries that don’t. However their means are relatively similar as seen on the graph. India is a huge outlier on the graph, which was expected as seen in the video by James Hoffmann. Overall, there are many more countries in the non euro dataset, meaning that it isn’t surprising for there to be a much wider span of indexes.</h1>
 
 
 <!-- -->
@@ -1087,74 +1136,109 @@ cookieconsent.run({
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1"></a><span class="co">---</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="an">title:</span><span class="co"> "HW1_212"</span></span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="co">---</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a></span>
-<span id="cb13-7"><a href="#cb13-7"></a><span class="in">```{r}</span></span>
-<span id="cb13-8"><a href="#cb13-8"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb13-9"><a href="#cb13-9"></a><span class="fu">library</span>(mosaic)</span>
-<span id="cb13-10"><a href="#cb13-10"></a></span>
-<span id="cb13-11"><a href="#cb13-11"></a><span class="co"># Using R</span></span>
-<span id="cb13-12"><a href="#cb13-12"></a><span class="co"># Option 1: tidytuesdayR R package </span></span>
-<span id="cb13-13"><a href="#cb13-13"></a><span class="do">## install.packages("tidytuesdayR")</span></span>
-<span id="cb13-14"><a href="#cb13-14"></a></span>
-<span id="cb13-15"><a href="#cb13-15"></a>tuesdata <span class="ot">&lt;-</span> tidytuesdayR<span class="sc">::</span><span class="fu">tt_load</span>(<span class="st">'2026-09-08'</span>)</span>
-<span id="cb13-16"><a href="#cb13-16"></a><span class="do">## OR</span></span>
-<span id="cb13-17"><a href="#cb13-17"></a>tuesdata <span class="ot">&lt;-</span> tidytuesdayR<span class="sc">::</span><span class="fu">tt_load</span>(<span class="dv">2026</span>, <span class="at">week =</span> <span class="dv">36</span>)</span>
-<span id="cb13-18"><a href="#cb13-18"></a></span>
-<span id="cb13-19"><a href="#cb13-19"></a>cafe <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>cafe</span>
-<span id="cb13-20"><a href="#cb13-20"></a>cappuccino_index <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>cappuccino_index</span>
-<span id="cb13-21"><a href="#cb13-21"></a></span>
-<span id="cb13-22"><a href="#cb13-22"></a><span class="co"># Option 2: Read directly from GitHub</span></span>
-<span id="cb13-23"><a href="#cb13-23"></a></span>
-<span id="cb13-24"><a href="#cb13-24"></a>cafe <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-09-08/cafe.csv'</span>)</span>
-<span id="cb13-25"><a href="#cb13-25"></a>cappuccino_index <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-09-08/cappuccino_index.csv'</span>)</span>
-<span id="cb13-26"><a href="#cb13-26"></a><span class="in">```</span></span>
-<span id="cb13-27"><a href="#cb13-27"></a></span>
-<span id="cb13-28"><a href="#cb13-28"></a><span class="fu"># Cappuccino index = (price of cappuccino/hourly wage) x 60</span></span>
-<span id="cb13-29"><a href="#cb13-29"></a></span>
-<span id="cb13-30"><a href="#cb13-30"></a><span class="fu"># Arrange descending index for all countries and then filter for countries with 10 or more entries</span></span>
-<span id="cb13-31"><a href="#cb13-31"></a></span>
-<span id="cb13-34"><a href="#cb13-34"></a><span class="in">```{r}</span></span>
-<span id="cb13-35"><a href="#cb13-35"></a>cappuccino_index <span class="sc">%&gt;%</span></span>
-<span id="cb13-36"><a href="#cb13-36"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(index))</span>
-<span id="cb13-37"><a href="#cb13-37"></a></span>
-<span id="cb13-38"><a href="#cb13-38"></a>index_filtered <span class="ot">&lt;-</span> cappuccino_index <span class="sc">%&gt;%</span></span>
-<span id="cb13-39"><a href="#cb13-39"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;=</span> <span class="dv">10</span>)</span>
-<span id="cb13-40"><a href="#cb13-40"></a>index_filtered</span>
-<span id="cb13-41"><a href="#cb13-41"></a><span class="in">```</span></span>
-<span id="cb13-42"><a href="#cb13-42"></a></span>
-<span id="cb13-43"><a href="#cb13-43"></a><span class="fu"># Join the 2 datasets to only use countries with 10 or more entries and group by country</span></span>
-<span id="cb13-44"><a href="#cb13-44"></a></span>
-<span id="cb13-47"><a href="#cb13-47"></a><span class="in">```{r}</span></span>
-<span id="cb13-48"><a href="#cb13-48"></a>cappuccino <span class="ot">&lt;-</span> cafe <span class="sc">%&gt;%</span></span>
-<span id="cb13-49"><a href="#cb13-49"></a>  <span class="fu">inner_join</span>(index_filtered, <span class="at">by =</span> <span class="st">"country"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb13-50"><a href="#cb13-50"></a>  <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span></span>
-<span id="cb13-51"><a href="#cb13-51"></a>    <span class="fu">summarize</span>(</span>
-<span id="cb13-52"><a href="#cb13-52"></a>    <span class="at">original_currency =</span> <span class="fu">first</span>(original_currency),</span>
-<span id="cb13-53"><a href="#cb13-53"></a>    <span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="sc">~</span><span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
-<span id="cb13-54"><a href="#cb13-54"></a>cappuccino</span>
-<span id="cb13-55"><a href="#cb13-55"></a><span class="in">```</span></span>
-<span id="cb13-56"><a href="#cb13-56"></a></span>
-<span id="cb13-57"><a href="#cb13-57"></a><span class="fu"># Research Question: Do countries with original currency of Euros tend to have a better cappuccino index?</span></span>
-<span id="cb13-58"><a href="#cb13-58"></a></span>
-<span id="cb13-59"><a href="#cb13-59"></a><span class="fu"># Make some graphs!</span></span>
-<span id="cb13-60"><a href="#cb13-60"></a></span>
-<span id="cb13-63"><a href="#cb13-63"></a><span class="in">```{r}</span></span>
-<span id="cb13-64"><a href="#cb13-64"></a>cappuccino_euro <span class="ot">&lt;-</span> cappuccino <span class="sc">%&gt;%</span></span>
-<span id="cb13-65"><a href="#cb13-65"></a>  <span class="fu">filter</span>(original_currency <span class="sc">==</span> <span class="st">"EUR - Euro"</span>)</span>
-<span id="cb13-66"><a href="#cb13-66"></a>cappuccino_euro</span>
-<span id="cb13-67"><a href="#cb13-67"></a></span>
-<span id="cb13-68"><a href="#cb13-68"></a>cappuccino_noteuro <span class="ot">&lt;-</span> cappuccino <span class="sc">%&gt;%</span></span>
-<span id="cb13-69"><a href="#cb13-69"></a>  <span class="fu">filter</span>(original_currency <span class="sc">!=</span> <span class="st">"EUR - Euro"</span>)</span>
-<span id="cb13-70"><a href="#cb13-70"></a>cappuccino_noteuro</span>
-<span id="cb13-71"><a href="#cb13-71"></a></span>
-<span id="cb13-72"><a href="#cb13-72"></a>plot1 <span class="ot">&lt;-</span> cappuccino_euro <span class="sc">%&gt;%</span></span>
-<span id="cb13-73"><a href="#cb13-73"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> country, <span class="at">y =</span> index)) <span class="sc">+</span></span>
-<span id="cb13-74"><a href="#cb13-74"></a>  <span class="fu">geom_point</span>() </span>
-<span id="cb13-75"><a href="#cb13-75"></a>plot1</span>
-<span id="cb13-76"><a href="#cb13-76"></a><span class="in">```</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb17-1"><a href="#cb17-1"></a><span class="co">---</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="an">title:</span><span class="co"> "HW1_212"</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="co">---</span></span>
+<span id="cb17-4"><a href="#cb17-4"></a></span>
+<span id="cb17-7"><a href="#cb17-7"></a><span class="in">```{r}</span></span>
+<span id="cb17-8"><a href="#cb17-8"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb17-9"><a href="#cb17-9"></a><span class="fu">library</span>(mosaic)</span>
+<span id="cb17-10"><a href="#cb17-10"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb17-11"><a href="#cb17-11"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb17-12"><a href="#cb17-12"></a></span>
+<span id="cb17-13"><a href="#cb17-13"></a><span class="co"># Using R</span></span>
+<span id="cb17-14"><a href="#cb17-14"></a><span class="co"># Option 1: tidytuesdayR R package </span></span>
+<span id="cb17-15"><a href="#cb17-15"></a><span class="do">## install.packages("tidytuesdayR")</span></span>
+<span id="cb17-16"><a href="#cb17-16"></a></span>
+<span id="cb17-17"><a href="#cb17-17"></a>tuesdata <span class="ot">&lt;-</span> tidytuesdayR<span class="sc">::</span><span class="fu">tt_load</span>(<span class="st">'2026-09-08'</span>)</span>
+<span id="cb17-18"><a href="#cb17-18"></a><span class="do">## OR</span></span>
+<span id="cb17-19"><a href="#cb17-19"></a>tuesdata <span class="ot">&lt;-</span> tidytuesdayR<span class="sc">::</span><span class="fu">tt_load</span>(<span class="dv">2026</span>, <span class="at">week =</span> <span class="dv">36</span>)</span>
+<span id="cb17-20"><a href="#cb17-20"></a></span>
+<span id="cb17-21"><a href="#cb17-21"></a>cafe <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>cafe</span>
+<span id="cb17-22"><a href="#cb17-22"></a>cappuccino_index <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>cappuccino_index</span>
+<span id="cb17-23"><a href="#cb17-23"></a></span>
+<span id="cb17-24"><a href="#cb17-24"></a><span class="co"># Option 2: Read directly from GitHub</span></span>
+<span id="cb17-25"><a href="#cb17-25"></a></span>
+<span id="cb17-26"><a href="#cb17-26"></a>cafe <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-09-08/cafe.csv'</span>)</span>
+<span id="cb17-27"><a href="#cb17-27"></a>cappuccino_index <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-09-08/cappuccino_index.csv'</span>)</span>
+<span id="cb17-28"><a href="#cb17-28"></a><span class="in">```</span></span>
+<span id="cb17-29"><a href="#cb17-29"></a></span>
+<span id="cb17-30"><a href="#cb17-30"></a>Cappuccino index = (price of cappuccino/hourly wage) x 60</span>
+<span id="cb17-31"><a href="#cb17-31"></a></span>
+<span id="cb17-32"><a href="#cb17-32"></a><span class="fu"># Reseach Question: Is there a clear difference in the Cappuccino Index between countries that use Euro currency vs non-Euro currency?</span></span>
+<span id="cb17-33"><a href="#cb17-33"></a></span>
+<span id="cb17-34"><a href="#cb17-34"></a><span class="fu"># Process</span></span>
+<span id="cb17-35"><a href="#cb17-35"></a></span>
+<span id="cb17-36"><a href="#cb17-36"></a>Data Wrangling: Arrange descending index for all countries and then filter for countries with 10 or more entries</span>
+<span id="cb17-37"><a href="#cb17-37"></a></span>
+<span id="cb17-40"><a href="#cb17-40"></a><span class="in">```{r}</span></span>
+<span id="cb17-41"><a href="#cb17-41"></a>cappuccino_index <span class="sc">%&gt;%</span></span>
+<span id="cb17-42"><a href="#cb17-42"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(index))</span>
+<span id="cb17-43"><a href="#cb17-43"></a></span>
+<span id="cb17-44"><a href="#cb17-44"></a>index_filtered <span class="ot">&lt;-</span> cappuccino_index <span class="sc">%&gt;%</span></span>
+<span id="cb17-45"><a href="#cb17-45"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;=</span> <span class="dv">10</span>)</span>
+<span id="cb17-46"><a href="#cb17-46"></a>index_filtered</span>
+<span id="cb17-47"><a href="#cb17-47"></a><span class="in">```</span></span>
+<span id="cb17-48"><a href="#cb17-48"></a></span>
+<span id="cb17-49"><a href="#cb17-49"></a>Join the 2 datasets to only use countries with 10 or more entries and group by country</span>
+<span id="cb17-50"><a href="#cb17-50"></a></span>
+<span id="cb17-53"><a href="#cb17-53"></a><span class="in">```{r}</span></span>
+<span id="cb17-54"><a href="#cb17-54"></a>cappuccino <span class="ot">&lt;-</span> cafe <span class="sc">%&gt;%</span></span>
+<span id="cb17-55"><a href="#cb17-55"></a>  <span class="fu">inner_join</span>(index_filtered, <span class="at">by =</span> <span class="st">"country"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-56"><a href="#cb17-56"></a>  <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span></span>
+<span id="cb17-57"><a href="#cb17-57"></a>    <span class="fu">summarize</span>(</span>
+<span id="cb17-58"><a href="#cb17-58"></a>    <span class="at">original_currency =</span> <span class="fu">first</span>(original_currency),</span>
+<span id="cb17-59"><a href="#cb17-59"></a>    <span class="fu">across</span>(<span class="fu">where</span>(is.numeric), <span class="sc">~</span><span class="fu">mean</span>(.x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb17-60"><a href="#cb17-60"></a>cappuccino</span>
+<span id="cb17-61"><a href="#cb17-61"></a><span class="in">```</span></span>
+<span id="cb17-62"><a href="#cb17-62"></a></span>
+<span id="cb17-63"><a href="#cb17-63"></a>Make some graphs to better understand the relationships!</span>
+<span id="cb17-64"><a href="#cb17-64"></a></span>
+<span id="cb17-67"><a href="#cb17-67"></a><span class="in">```{r}</span></span>
+<span id="cb17-68"><a href="#cb17-68"></a>cappuccino_euro <span class="ot">&lt;-</span> cappuccino <span class="sc">%&gt;%</span></span>
+<span id="cb17-69"><a href="#cb17-69"></a>  <span class="fu">filter</span>(original_currency <span class="sc">==</span> <span class="st">"EUR - Euro"</span>)</span>
+<span id="cb17-70"><a href="#cb17-70"></a>cappuccino_euro</span>
+<span id="cb17-71"><a href="#cb17-71"></a></span>
+<span id="cb17-72"><a href="#cb17-72"></a>cappuccino_noteuro <span class="ot">&lt;-</span> cappuccino <span class="sc">%&gt;%</span></span>
+<span id="cb17-73"><a href="#cb17-73"></a>  <span class="fu">filter</span>(original_currency <span class="sc">!=</span> <span class="st">"EUR - Euro"</span>)</span>
+<span id="cb17-74"><a href="#cb17-74"></a>cappuccino_noteuro</span>
+<span id="cb17-75"><a href="#cb17-75"></a></span>
+<span id="cb17-76"><a href="#cb17-76"></a>plot1 <span class="ot">&lt;-</span> cappuccino_euro <span class="sc">%&gt;%</span></span>
+<span id="cb17-77"><a href="#cb17-77"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> country, <span class="at">y =</span> index)) <span class="sc">+</span></span>
+<span id="cb17-78"><a href="#cb17-78"></a>  <span class="fu">geom_col</span>() </span>
+<span id="cb17-79"><a href="#cb17-79"></a>plot1</span>
+<span id="cb17-80"><a href="#cb17-80"></a></span>
+<span id="cb17-81"><a href="#cb17-81"></a>plot2 <span class="ot">&lt;-</span> cappuccino_noteuro <span class="sc">%&gt;%</span></span>
+<span id="cb17-82"><a href="#cb17-82"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> country, <span class="at">y =</span> index)) <span class="sc">+</span></span>
+<span id="cb17-83"><a href="#cb17-83"></a>  <span class="fu">geom_col</span>()</span>
+<span id="cb17-84"><a href="#cb17-84"></a>plot2</span>
+<span id="cb17-85"><a href="#cb17-85"></a><span class="in">```</span></span>
+<span id="cb17-86"><a href="#cb17-86"></a></span>
+<span id="cb17-89"><a href="#cb17-89"></a><span class="in">```{r}</span></span>
+<span id="cb17-90"><a href="#cb17-90"></a>plot1 <span class="ot">&lt;-</span> cappuccino_euro <span class="sc">%&gt;%</span></span>
+<span id="cb17-91"><a href="#cb17-91"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> index)) <span class="sc">+</span></span>
+<span id="cb17-92"><a href="#cb17-92"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"#77aadd"</span>) <span class="sc">+</span></span>
+<span id="cb17-93"><a href="#cb17-93"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Euro Currency"</span>, <span class="at">y =</span> <span class="st">"Cappuccino Index"</span>) <span class="sc">+</span></span>
+<span id="cb17-94"><a href="#cb17-94"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb17-95"><a href="#cb17-95"></a>plot1</span>
+<span id="cb17-96"><a href="#cb17-96"></a></span>
+<span id="cb17-97"><a href="#cb17-97"></a>plot2 <span class="ot">&lt;-</span> cappuccino_noteuro <span class="sc">%&gt;%</span></span>
+<span id="cb17-98"><a href="#cb17-98"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> index,)) <span class="sc">+</span></span>
+<span id="cb17-99"><a href="#cb17-99"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"#ee8866"</span>) <span class="sc">+</span></span>
+<span id="cb17-100"><a href="#cb17-100"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Other Currency"</span>, <span class="at">y =</span> <span class="st">"Cappuccino Index"</span>) <span class="sc">+</span></span>
+<span id="cb17-101"><a href="#cb17-101"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb17-102"><a href="#cb17-102"></a>plot2</span>
+<span id="cb17-103"><a href="#cb17-103"></a></span>
+<span id="cb17-104"><a href="#cb17-104"></a>(plot1 <span class="sc">+</span> plot2) <span class="sc">&amp;</span> </span>
+<span id="cb17-105"><a href="#cb17-105"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">180</span>)) <span class="sc">&amp;</span> </span>
+<span id="cb17-106"><a href="#cb17-106"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(), <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>()) <span class="sc">&amp;</span></span>
+<span id="cb17-107"><a href="#cb17-107"></a>  <span class="fu">plot_annotation</span>(<span class="at">title =</span> <span class="st">"The Cappucino Index"</span>, <span class="at">subtitle =</span> <span class="st">"In Euro vs Non-Euro Using Countries"</span>, <span class="at">caption =</span> <span class="st">"Eliza Palmer, 9/14/2026, Data from James Hoffmann"</span>,</span>
+<span id="cb17-108"><a href="#cb17-108"></a>                  <span class="at">theme =</span> <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">16</span>), <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>), <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>)))</span>
+<span id="cb17-109"><a href="#cb17-109"></a></span>
+<span id="cb17-110"><a href="#cb17-110"></a></span>
+<span id="cb17-111"><a href="#cb17-111"></a><span class="in">```</span></span>
+<span id="cb17-112"><a href="#cb17-112"></a></span>
+<span id="cb17-113"><a href="#cb17-113"></a><span class="fu"># Conclusion: There is a clear difference between countries that use Euro currency and countries that don't. However their means are relatively similar as seen on the graph. India is a huge outlier on the graph, which was expected as seen in the video by James Hoffmann. Overall, there are many more countries in the non euro dataset, meaning that it isn't surprising for there to be a much wider span of indexes. </span></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
