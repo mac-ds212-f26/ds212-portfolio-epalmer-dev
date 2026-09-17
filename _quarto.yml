@@ -71,6 +71,10 @@ book:
       - tt/HW1_212.qmd
       - tt/hw02-p1.qmd
 
+    - part: "Homework"
+      chapters:
+      - hw/hw02-p2.qmd
+
     - part: "Pre-Class Learnings"
       chapters:
       - pcl/pcl.qmd
