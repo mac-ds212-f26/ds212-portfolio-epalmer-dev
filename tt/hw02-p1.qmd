@@ -90,6 +90,15 @@ ggplot(weather) +
   theme_classic()
 ```
 
+```{r weather_plot_precip}
+ggplot(weather, aes(x = dateInYear, y = CulmPrec)) +
+  geom_line(color = "#32a3d8") +
+  geom_area(fill = "#ebeae2") +
+  geom_point(data = subset(weather, RecordP == TRUE | RecordP == 1), shape = 25, size = 2, color = "black", fill = "black") +
+  scale_x_continuous(breaks = weather_2$month_intercept, labels = month.abb) + 
+  theme_classic()
+```
+
 ## Resources Reflection (required)
 
 List the resources you used to help with this assignment then write 3-5 sentence reflection on which resources were most helpful in finishing this task.
