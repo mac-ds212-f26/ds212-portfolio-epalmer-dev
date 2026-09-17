@@ -54,57 +54,57 @@
     ]
   },
   {
-    "objectID": "tt/hw02-p1.html",
-    "href": "tt/hw02-p1.html",
+    "objectID": "hw/hw02-p1.html",
+    "href": "hw/hw02-p1.html",
     "title": "HW02-P1 Adv Data Viz",
     "section": "",
     "text": "Instructions\nUsing ggplot2 and other tools in R, recreate the original New York Times graphic to the greatest extent possible. Try to get as close as possible to the figure below:\nYou will need to use reference pages and documentation to discover necessary tools. For example, you may want to Google search “ggplot multiple plots”. When looking through results, check publication dates and use newer references. Some helpful resources could include R documentation, Stack Overflow, and R cheatsheets.\nRequirements\nBonus: If you’d like further practice, recreate the legend in the temperature graph that shows how the colored lines relate to record, normal, and actual highs.",
     "crumbs": [
-      "TidyTuesday",
+      "Homework",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>HW02-P1 Adv Data Viz</span>"
     ]
   },
   {
-    "objectID": "tt/hw02-p1.html#instructions",
-    "href": "tt/hw02-p1.html#instructions",
+    "objectID": "hw/hw02-p1.html#instructions",
+    "href": "hw/hw02-p1.html#instructions",
     "title": "HW02-P1 Adv Data Viz",
     "section": "",
     "text": "Temperature graph\n\nBands for the record, normal, and actual highs and lows are shown in the correct colors.\nDownward triangles point to the record high temperatures above the red band.\nText displays the record high temperatures above the triangles.\nX-axis label: 3-letter month abbreviations appear in the middle of each month.\nY-axis label: Tick marks at 0, 40, 80, and 120 only.\nVertical lines separate the months.\nTitle of “Temperature” is included.\n\n\nPrecipitation\n\nTan area and blue line reflecting the monthly cumulative precipitation is included.\nText (number) for cumulative precipitation for each month is included at the end of each month just above the blue line.\nDownward triangles point to the record precipitation days.\nVertical lines separate the months.\nTitle of “Precipitation” is included.\n\n\nOverall\n\nBoth the temperature and precipitation graphs are in one figure.\nThe temperature plot takes up more vertical space than the precipitation plot.\nThe title “SFO weather in 2011” is present.\n\n\nResource reflection\n\nAt least 1 resource is listed\nAt least 3 sentences about resources and their helpfulness in the task",
     "crumbs": [
-      "TidyTuesday",
+      "Homework",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>HW02-P1 Adv Data Viz</span>"
     ]
   },
   {
-    "objectID": "tt/hw02-p1.html#setup",
-    "href": "tt/hw02-p1.html#setup",
+    "objectID": "hw/hw02-p1.html#setup",
+    "href": "hw/hw02-p1.html#setup",
     "title": "HW02-P1 Adv Data Viz",
     "section": "Setup",
     "text": "Setup\n\nCodelibrary(tidyverse)\nweather &lt;- read_csv(\"https://mac-stat.github.io/data/sfo_weather.csv\")",
     "crumbs": [
-      "TidyTuesday",
+      "Homework",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>HW02-P1 Adv Data Viz</span>"
     ]
   },
   {
-    "objectID": "tt/hw02-p1.html#visualization",
-    "href": "tt/hw02-p1.html#visualization",
+    "objectID": "hw/hw02-p1.html#visualization",
+    "href": "hw/hw02-p1.html#visualization",
     "title": "HW02-P1 Adv Data Viz",
     "section": "Visualization",
-    "text": "Visualization\n\nCodeggplot(weather) +\n  geom_linerange(aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh), color = \"#ECEBE3\") +\n    theme_classic()\n\n\n\n\n\n\n\n\nCodeggplot(weather) +\n  geom_linerange(aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh), color = \"#ECEBE3\") +\n  geom_linerange(aes(x = dateInYear, ymin = NormalLow, ymax = NormalHigh), color = \"#C8B8BA\") +\n  geom_linerange(aes(x = dateInYear, ymin = Low, ymax = High), color = \"#A90248\") +\n    theme_classic() \n\n\n\n\n\n\n\n\nCodeweather_2 &lt;- weather %&gt;%\n  group_by(Month) %&gt;%\n  summarize(month_intercept = min(dateInYear))\n\nggplot(weather) +\n  geom_linerange(aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh), color = \"#ECEBE3\") +\n  geom_linerange(aes(x = dateInYear, ymin = NormalLow, ymax = NormalHigh), color = \"#C8B8BA\") +\n  geom_linerange(aes(x = dateInYear, ymin = Low, ymax = High), color = \"#A90248\") +\n  geom_vline(data = weather_2, aes(xintercept = month_intercept), color = \"#ECEBE3\") +\n  theme_classic()\n\n\n\n\n\n\n\n\nCodeggplot(weather) +\n  geom_linerange(aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh), color = \"#ECEBE3\") +\n  geom_linerange(aes(x = dateInYear, ymin = NormalLow, ymax = NormalHigh), color = \"#C8B8BA\") +\n  geom_linerange(aes(x = dateInYear, ymin = Low, ymax = High), color = \"#A90248\") +\n  geom_vline(data = weather_2, aes(xintercept = month_intercept), color = \"#ECEBE3\") +\n  scale_x_continuous(breaks = weather_2$month_intercept, labels = month.abb) + \n  theme_classic()\n\n\n\n\n\n\n\n\nCodeggplot(weather, aes(x = dateInYear, y = CulmPrec)) +\n  geom_line(color = \"#32a3d8\") +\n  geom_area(fill = \"#ebeae2\") +\n  geom_point(data = subset(weather, RecordP == TRUE | RecordP == 1), shape = 25, size = 2, color = \"black\", fill = \"black\") +\n  scale_x_continuous(breaks = weather_2$month_intercept, labels = month.abb) + \n  theme_classic()",
+    "text": "Visualization\n\nCodeggplot(weather) +\n  geom_linerange(aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh), color = \"#ECEBE3\") +\n    theme_classic()\n\n\n\n\n\n\n\n\nCodeggplot(weather) +\n  geom_linerange(aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh), color = \"#ECEBE3\") +\n  geom_linerange(aes(x = dateInYear, ymin = NormalLow, ymax = NormalHigh), color = \"#C8B8BA\") +\n  geom_linerange(aes(x = dateInYear, ymin = Low, ymax = High), color = \"#A90248\") +\n    theme_classic() \n\n\n\n\n\n\n\n\nCodeweather_2 &lt;- weather %&gt;%\n  group_by(Month) %&gt;%\n  summarize(month_intercept = min(dateInYear))\n\nggplot(weather) +\n  geom_linerange(aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh), color = \"#ECEBE3\") +\n  geom_linerange(aes(x = dateInYear, ymin = NormalLow, ymax = NormalHigh), color = \"#C8B8BA\") +\n  geom_linerange(aes(x = dateInYear, ymin = Low, ymax = High), color = \"#A90248\") +\n  geom_vline(data = weather_2, aes(xintercept = month_intercept), color = \"#ECEBE3\") +\n  theme_classic()\n\n\n\n\n\n\n\n\nCodeggplot(weather) +\n  geom_linerange(aes(x = dateInYear, ymin = RecordLow, ymax = RecordHigh), color = \"#ECEBE3\") +\n  geom_linerange(aes(x = dateInYear, ymin = NormalLow, ymax = NormalHigh), color = \"#C8B8BA\") +\n  geom_linerange(aes(x = dateInYear, ymin = Low, ymax = High), color = \"#A90248\") +\n  geom_vline(data = weather_2, aes(xintercept = month_intercept), color = \"#ECEBE3\") +\n  scale_x_continuous(breaks = weather_2$month_intercept, labels = month.abb) + \n  theme_classic()",
     "crumbs": [
-      "TidyTuesday",
+      "Homework",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>HW02-P1 Adv Data Viz</span>"
     ]
   },
   {
-    "objectID": "tt/hw02-p1.html#resources-reflection-required",
-    "href": "tt/hw02-p1.html#resources-reflection-required",
+    "objectID": "hw/hw02-p1.html#resources-reflection-required",
+    "href": "hw/hw02-p1.html#resources-reflection-required",
     "title": "HW02-P1 Adv Data Viz",
     "section": "Resources Reflection (required)",
     "text": "Resources Reflection (required)\nList the resources you used to help with this assignment then write 3-5 sentence reflection on which resources were most helpful in finishing this task.\nResources:\n\nhttps://ggplot2.tidyverse.org/reference/\nhttps://rstudio.github.io/cheatsheets/html/data-visualization.html\nhttps://publish.illinois.edu/johnrgallagher/files/2015/10/BaseGraphicsCheatsheet.pdf\n\nReflection:\nThe ggplot tidyverse reference page was the most helpful because it had examples of what the inputs for each function should be. I also liked it because it had all the various potential functions that I would need with graphs alongside them which was helpful for matching up the graph that I was supposed to make.",
     "crumbs": [
-      "TidyTuesday",
+      "Homework",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>HW02-P1 Adv Data Viz</span>"
     ]
   },
