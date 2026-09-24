@@ -100,4 +100,26 @@ plot2
 
 ```
 
+```{r}
+plot1 <- cappuccino_euro %>%
+  ggplot(aes(y = index)) +
+  geom_boxplot(fill = "#77aadd") +
+  labs(x = "Euro Currency", y = NULL) +
+  theme_minimal()
+plot1
+
+plot2 <- cappuccino_noteuro %>%
+  ggplot(aes(y = index,)) +
+  geom_boxplot(fill = "#ee8866") +
+  labs(x = "Other Currency", y = NULL) +
+  theme_minimal()
+plot2
+
+(plot1 + plot2) & 
+  coord_cartesian(ylim = c(0, 180)) & 
+  theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(), aspect.ratio = 1.2) &
+  plot_annotation(title = "The Cappucino Index Range: How Long a Barista Must Work to Pay for a Cup of Cappuccino) \nin Euro vs Non-Euro Using Countries", subtitle = "Non-Euro Countries Have a Wider Range", caption = "By: Eliza Palmer, Created On: 9/14/2026, Data from James Hoffmann via TidyTuesday 'The Cappuccino Index'",
+                  theme = theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 11), plot.subtitle = element_text(hjust = 0.5, size = 10), plot.caption = element_text(size = 6)))
+```
+
 # Conclusion: There is a clear difference between countries that use Euro currency and countries that don't. However their means are relatively similar as seen on the graph. India is a huge outlier on the graph, which was expected as seen in the video by James Hoffmann. Overall, there are many more countries in the non euro dataset, meaning that it isn't surprising for there to be a much wider span of indexes. 
