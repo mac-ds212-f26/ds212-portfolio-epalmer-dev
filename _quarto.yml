@@ -22,7 +22,7 @@ number-depth: 2
 
 book:
   title: "COMP/STAT212 Portfolio"
-  author: "Your Name Here"
+  author: "Eliza Palmer"
   date: today  # use today to update date published based on last time project was edited
   date-format: full
   # favicon: path/to/favorite-logo.png
@@ -45,7 +45,7 @@ book:
       # footer text
 
   sidebar:
-    title: "Your Name Here"
+    title: "Eliza Palmer"
     logo: assets/sidebar-logo.png
     logo-alt: "Random negative space illustration"
     collapse-level: 2
@@ -63,11 +63,14 @@ book:
     - part: "Personal Viz Journey"
       chapters:
       - pvj/pvj-01.qmd
+      - pvj/pvj_DataImport.qmd
+      - pvj/pvj_DataViz.qmd
 
     - part: "TidyTuesday"
       chapters:
       - tt/2025-07-08.qmd
       - tt/2025-07-15.qmd
+      - tt/HW1_212.qmd
 
     - part: "Pre-Class Learnings"
       chapters:
@@ -77,6 +80,15 @@ book:
       chapters:
       - ica/ica-sample1.qmd
       - ica/ica-sample2.qmd
+      - ica/03-adv-ggplot-notes.qmd
+      - ica/04_adv_maps/code/04-adv-maps-1-notes.qmd
+      - ica/06-wrangling-1-notes_files/06-wrangling-1-notes.qmd
+      - ica/07-wrangling-2.qmd
+      - ica/08-missing-data.qmd
+      - ica/09-functions.qmd
+      - ica/11-iteration-1.qmd
+      - ica/12-iteration-2.qmd
+      - ica/14-apis-2.qmd
 
     - part: "Extras"
       chapters:
