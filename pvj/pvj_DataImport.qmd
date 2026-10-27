@@ -1,0 +1,12 @@
+---
+title: "pvj_DataImport"
+---
+
+```{r}
+library(readr)
+```
+
+```{r}
+lastfm_data <- read_csv("/Users/elizapalmer/Documents/GitHub/ds212-portfolio-epalmer-dev/pvj/rawData/lastfm_data_updated.csv")
+```
+

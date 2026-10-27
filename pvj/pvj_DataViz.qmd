@@ -1,0 +1,90 @@
+---
+title: "pvj_DataViz"
+format: html
+---
+
+```{r}
+library(readr)
+library(tidyverse)
+library(lubridate)
+library(ggplot2)
+```
+
+```{r}
+lastfm_data <- read_csv("/Users/elizapalmer/Documents/GitHub/ds212-portfolio-epalmer-dev/pvj/rawData/lastfm_data_updated.csv")
+```
+#Sorting through data to decide what to make a visualization of
+
+```{r}
+lastfm_data %>%
+  count(Artist, sort = TRUE)
+```
+
+```{r}
+music_2025_byMonth <- lastfm_data %>%
+  filter(str_detect(Date, "2025")) %>%
+  mutate(Date = dmy_hm(Date)) %>%
+  mutate(month_name = month(Date, label = TRUE)) %>%
+  group_by(month_name) %>%
+  summarize(total_scrobbles = n())
+```
+
+```{r}
+music_2025_byMonth %>%
+  ggplot(aes(x = month_name, y = total_scrobbles, group = 1)) +
+  geom_line() +
+  geom_point()
+```
+
+```{r}
+music_2025_byArtist <- lastfm_data %>%
+  filter(str_detect(Date, "2025")) %>%
+  count(Artist, sort = TRUE)
+```
+
+```{r}
+music_2025_byArtist %>%
+  filter(n > 180) %>%
+  ggplot(aes(x = n, y = Artist)) +
+  geom_point()
+```
+
+```{r}
+top_artist <- lastfm_data %>%
+  filter(str_detect(Date, "2025")) %>%
+  count(Artist, sort = TRUE) %>%
+  slice_head(n = 10) %>%
+  pull(Artist)
+```
+
+```{r}
+artist_monthly <- lastfm_data %>%
+  filter(str_detect(Date, "2025")) %>%
+  filter(Artist %in% top_artist) %>%
+  mutate(
+    Date = dmy_hm(Date),
+    month_name = month(Date, label = TRUE)
+  ) %>%
+  count(Artist, month_name, name = "scrobbles")
+```
+
+```{r}
+artist_monthly %>% 
+  ggplot(aes(x = month_name, y = reorder(Artist, scrobbles, FUN = sum), group = Artist)) +
+  geom_line() +
+  geom_point(aes(size = scrobbles, color = scrobbles))
+```
+
+```{r}
+ggplot(artist_monthly, aes(x = month_name, y = reorder(Artist, scrobbles, FUN = sum), fill = scrobbles)) +
+  geom_tile(color = "white") +
+  scale_fill_viridis_c(option = "inferno") +
+  theme_minimal() +
+  labs(
+    title = "Monthly Listening Heatmap by Artist",
+    x = "",
+    y = "",
+    fill = "Number of Listens"
+  )
+```
+
