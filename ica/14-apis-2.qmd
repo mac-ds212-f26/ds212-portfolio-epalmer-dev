@@ -225,7 +225,7 @@ Our goal is to use the search API at the bottom of the page but before that an a
 ```{r}
 #| eval: false
 
-bgg_key <- readLines("bgg_key.txt")
+#bgg_key <- readLines("bgg_key.txt")
 ```
 
 
@@ -245,11 +245,11 @@ The following request searches for board games, board game accessories, and boar
 ```{r httr2_bgg}
 #| eval: false
 
-req <- request("https://boardgamegeek.com/xmlapi2") |>
-    req_url_path_append("search") |>
-    req_url_query(query = I("mystery+curse"), type = I("boardgame,boardgameaccessory,boardgameexpansion")) |>
-  req_headers(
-    "Authorization" = sprintf("Bearer %s", bgg_key)
+#req <- request("https://boardgamegeek.com/xmlapi2") |>
+   # req_url_path_append("search") |>
+   # req_url_query(query = I("mystery+curse"), type = I("boardgame,boardgameaccessory,boardgameexpansion")) |>
+ # req_headers(
+    #"Authorization" = sprintf("Bearer %s", bgg_key)
   )
 ```
 
@@ -266,7 +266,7 @@ When we use `req_perform()`, we see from `Content-Type` that the format of the r
 
 resp <- req_perform(req)
 resp
-resp <- resp_body_xml(resp)
+#resp <- resp_body_xml(resp)
 resp
 ```
 
@@ -277,7 +277,7 @@ Let's first use the `xml_structure()` function to see how information is organiz
 ```{r xml_structure}
 #| eval: false
 
-xml_structure(resp)
+#xml_structure(resp)
 ```
 
 The key navigation and extraction functions in `xml2` are:
@@ -294,18 +294,18 @@ The key navigation and extraction functions in `xml2` are:
 #| eval: false
 
 # Get the item nodes in 2 different ways
-resp |> xml_find_all("item")
-resp |> xml_children()
+#resp |> xml_find_all("item")
+#resp |> xml_children()
 
 # Get the item "type"
-resp |> xml_find_all("item") |> xml_attr("type")
+#resp |> xml_find_all("item") |> xml_attr("type")
 
 # The <name> and <yearpublished> nodes are nested within each <item>
-resp |> xml_find_all("item/name")
-resp |> xml_find_all("item/yearpublished") # Notice that this is length 8 instead of 9!
+#resp |> xml_find_all("item/name")
+#resp |> xml_find_all("item/yearpublished") # Notice that this is length 8 instead of 9!
 
 # Get the "primary" or "alternate" designation for each name
-resp |> xml_find_all("item/name") |> xml_attr("type")
+#resp |> xml_find_all("item/name") |> xml_attr("type")
 ```
 
 
@@ -390,7 +390,7 @@ We can write a function to generate the URL for a user-specified query:
 #| eval: false
 
 create_nyt_url <- function(query, key) {
-    request("http://api.nytimes.com") |>
+    request("https://api.nytimes.com") |>
         req_url_path_append("svc") |>
         req_url_path_append("search") |>
         req_url_path_append("v2") |>
@@ -410,7 +410,7 @@ Let's see how these queries are translated into the URLs:
 #| eval: false
 
 req_fb <- create_nyt_url(query = "Ferris Bueller's Day Off", key = times_key)
-req_pt <- create_nyt_url(query = "Penn & Teller", key = times_key)
+#req_pt <- create_nyt_url(query = "Penn & Teller", key = times_key)
 ```
 
 We can use `req_perform()` to send out the request and `resp_body_json()` to parse the resulting JSON:
@@ -418,7 +418,7 @@ We can use `req_perform()` to send out the request and `resp_body_json()` to par
 ```{r nyt_responses}
 #| eval: false
 
-resp_pt <- req_pt |> req_perform() |> resp_body_json(simplifyVector = TRUE)
+#resp_pt <- req_pt |> req_perform() |> resp_body_json(simplifyVector = TRUE)
 ```
 
 
@@ -441,7 +441,7 @@ Using base R subsetting, we can access elements of a list in three ways:
 #| eval: false
 
 # This gets the first element of the list
-resp_pt[[1]]
+#resp_pt[[1]]
 ```
 
 - By *name* with double square brackets `[[`: (note that list elements are not always named, so this won't always be possible)
@@ -450,11 +450,11 @@ resp_pt[[1]]
 #| eval: false
 
 # Accessing by name directly
-resp_pt[["status"]]
+#resp_pt[["status"]]
 
 # Accessing via a variable
 which_element <- "status"
-resp_pt[[which_element]]
+#resp_pt[[which_element]]
 ```
 
 - By *name* with a dollar sign `$`: (Helpful tip: For this mode of access, RStudio allows tab completion to fill in the full name)
@@ -462,7 +462,7 @@ resp_pt[[which_element]]
 ```{r list_access3}
 #| eval: false
 
-resp_pt$status
+#resp_pt$status
 ```
 
 We can retrieve these *nested* attributes by sequentially accessing the object keys from the outside in. For example, the `meta` element would be accessed as follows:
@@ -470,7 +470,7 @@ We can retrieve these *nested* attributes by sequentially accessing the object k
 ```{r list_access4}
 #| eval: false
 
-resp_pt$response$meta
+#resp_pt$response$meta
 ```
 
 
@@ -483,7 +483,8 @@ In the `resp_pt` object, retrieve the data associated with:
 - the abstracts and leading paragraphs of the articles found in the search
 
 ```{r}
-
+#resp_pt$copyright
+#resp_pt$response$meta$hits
 ```
 
 

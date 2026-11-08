@@ -76,15 +76,17 @@ artist_monthly %>%
 ```
 
 ```{r}
-ggplot(artist_monthly, aes(x = month_name, y = reorder(Artist, scrobbles, FUN = sum), fill = scrobbles)) +
+ggplot(artist_monthly, aes(x = month_name, y = Artist, fill = scrobbles)) +
   geom_tile(color = "white") +
-  scale_fill_viridis_c(option = "inferno") +
+  scale_fill_viridis_c(option = "inferno", direction = -1) +
+  scale_y_discrete(limits = rev) +
   theme_minimal() +
   labs(
-    title = "Monthly Listening Heatmap by Artist",
+    title = "2025 Monthly Listening Heatmap by Top 10 Artists",
     x = "",
     y = "",
-    fill = "Number of Listens"
+    fill = "Number of Listens",
+    caption = "Author: Eliza Palmer | Date: November 2026 | Data: Last.fm"
   )
 ```
 
