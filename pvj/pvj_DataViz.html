@@ -620,13 +620,21 @@ cookieconsent.run({
 <span id="cb12-3"><a href="#cb12-3"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"inferno"</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb12-4"><a href="#cb12-4"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">limits =</span> rev) <span class="sc">+</span></span>
 <span id="cb12-5"><a href="#cb12-5"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a>  <span class="fu">labs</span>(</span>
-<span id="cb12-7"><a href="#cb12-7"></a>    <span class="at">title =</span> <span class="st">"2025 Monthly Listening Heatmap by Top 10 Artists"</span>,</span>
-<span id="cb12-8"><a href="#cb12-8"></a>    <span class="at">x =</span> <span class="st">""</span>,</span>
-<span id="cb12-9"><a href="#cb12-9"></a>    <span class="at">y =</span> <span class="st">""</span>,</span>
-<span id="cb12-10"><a href="#cb12-10"></a>    <span class="at">fill =</span> <span class="st">"Number of Listens"</span>,</span>
-<span id="cb12-11"><a href="#cb12-11"></a>    <span class="at">caption =</span> <span class="st">"Author: Eliza Palmer | Date: November 2026 | Data: Last.fm"</span></span>
-<span id="cb12-12"><a href="#cb12-12"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-6"><a href="#cb12-6"></a>  <span class="fu">theme</span>(</span>
+<span id="cb12-7"><a href="#cb12-7"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(</span>
+<span id="cb12-8"><a href="#cb12-8"></a>      <span class="at">family =</span> <span class="st">"sans"</span>,      </span>
+<span id="cb12-9"><a href="#cb12-9"></a>      <span class="at">face =</span> <span class="st">"bold"</span>,         </span>
+<span id="cb12-10"><a href="#cb12-10"></a>      <span class="at">size =</span> <span class="dv">16</span>,            </span>
+<span id="cb12-11"><a href="#cb12-11"></a>      <span class="at">hjust =</span> <span class="fl">0.5</span>            </span>
+<span id="cb12-12"><a href="#cb12-12"></a>    )</span>
+<span id="cb12-13"><a href="#cb12-13"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-14"><a href="#cb12-14"></a>  <span class="fu">labs</span>(</span>
+<span id="cb12-15"><a href="#cb12-15"></a>    <span class="at">title =</span> <span class="st">"2025 Monthly Listening Heatmap by Top 10 Artists"</span>,</span>
+<span id="cb12-16"><a href="#cb12-16"></a>    <span class="at">x =</span> <span class="st">""</span>,</span>
+<span id="cb12-17"><a href="#cb12-17"></a>    <span class="at">y =</span> <span class="st">""</span>,</span>
+<span id="cb12-18"><a href="#cb12-18"></a>    <span class="at">fill =</span> <span class="st">"Number of Listens"</span>,</span>
+<span id="cb12-19"><a href="#cb12-19"></a>    <span class="at">caption =</span> <span class="st">"Author: Eliza Palmer | Date: November 2026 | Data: Last.fm"</span></span>
+<span id="cb12-20"><a href="#cb12-20"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="pvj_DataViz_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
@@ -1201,14 +1209,22 @@ cookieconsent.run({
 <span id="cb13-103"><a href="#cb13-103"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"inferno"</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb13-104"><a href="#cb13-104"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">limits =</span> rev) <span class="sc">+</span></span>
 <span id="cb13-105"><a href="#cb13-105"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb13-106"><a href="#cb13-106"></a>  <span class="fu">labs</span>(</span>
-<span id="cb13-107"><a href="#cb13-107"></a>    <span class="at">title =</span> <span class="st">"2025 Monthly Listening Heatmap by Top 10 Artists"</span>,</span>
-<span id="cb13-108"><a href="#cb13-108"></a>    <span class="at">x =</span> <span class="st">""</span>,</span>
-<span id="cb13-109"><a href="#cb13-109"></a>    <span class="at">y =</span> <span class="st">""</span>,</span>
-<span id="cb13-110"><a href="#cb13-110"></a>    <span class="at">fill =</span> <span class="st">"Number of Listens"</span>,</span>
-<span id="cb13-111"><a href="#cb13-111"></a>    <span class="at">caption =</span> <span class="st">"Author: Eliza Palmer | Date: November 2026 | Data: Last.fm"</span></span>
-<span id="cb13-112"><a href="#cb13-112"></a>  )</span>
-<span id="cb13-113"><a href="#cb13-113"></a><span class="in">```</span></span>
+<span id="cb13-106"><a href="#cb13-106"></a>  <span class="fu">theme</span>(</span>
+<span id="cb13-107"><a href="#cb13-107"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(</span>
+<span id="cb13-108"><a href="#cb13-108"></a>      <span class="at">family =</span> <span class="st">"sans"</span>,      </span>
+<span id="cb13-109"><a href="#cb13-109"></a>      <span class="at">face =</span> <span class="st">"bold"</span>,         </span>
+<span id="cb13-110"><a href="#cb13-110"></a>      <span class="at">size =</span> <span class="dv">16</span>,            </span>
+<span id="cb13-111"><a href="#cb13-111"></a>      <span class="at">hjust =</span> <span class="fl">0.5</span>            </span>
+<span id="cb13-112"><a href="#cb13-112"></a>    )</span>
+<span id="cb13-113"><a href="#cb13-113"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-114"><a href="#cb13-114"></a>  <span class="fu">labs</span>(</span>
+<span id="cb13-115"><a href="#cb13-115"></a>    <span class="at">title =</span> <span class="st">"2025 Monthly Listening Heatmap by Top 10 Artists"</span>,</span>
+<span id="cb13-116"><a href="#cb13-116"></a>    <span class="at">x =</span> <span class="st">""</span>,</span>
+<span id="cb13-117"><a href="#cb13-117"></a>    <span class="at">y =</span> <span class="st">""</span>,</span>
+<span id="cb13-118"><a href="#cb13-118"></a>    <span class="at">fill =</span> <span class="st">"Number of Listens"</span>,</span>
+<span id="cb13-119"><a href="#cb13-119"></a>    <span class="at">caption =</span> <span class="st">"Author: Eliza Palmer | Date: November 2026 | Data: Last.fm"</span></span>
+<span id="cb13-120"><a href="#cb13-120"></a>  )</span>
+<span id="cb13-121"><a href="#cb13-121"></a><span class="in">```</span></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
