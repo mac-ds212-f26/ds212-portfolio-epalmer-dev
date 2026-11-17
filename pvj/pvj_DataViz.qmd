@@ -8,6 +8,7 @@ library(readr)
 library(tidyverse)
 library(lubridate)
 library(ggplot2)
+library(dplyr)
 ```
 
 ```{r}
@@ -81,6 +82,14 @@ ggplot(artist_monthly, aes(x = month_name, y = Artist, fill = scrobbles)) +
   scale_fill_viridis_c(option = "inferno", direction = -1) +
   scale_y_discrete(limits = rev) +
   theme_minimal() +
+  theme(
+    plot.title = element_text(
+      family = "sans",      
+      face = "bold",         
+      size = 16,            
+      hjust = 0.5            
+    )
+  ) +
   labs(
     title = "2025 Monthly Listening Heatmap by Top 10 Artists",
     x = "",
@@ -89,4 +98,51 @@ ggplot(artist_monthly, aes(x = month_name, y = Artist, fill = scrobbles)) +
     caption = "Author: Eliza Palmer | Date: November 2026 | Data: Last.fm"
   )
 ```
+
+```{r}
+artist_monthly_binned <- artist_monthly %>%
+  mutate(
+    listen_cat = cut(
+      scrobbles,
+      breaks = c(-Inf, 25, 50, 75, Inf),
+      labels = c("0–25", "26–50", "51–75", "76–100+")
+    )
+  )
+
+
+ggplot(artist_monthly_binned, aes(x = month_name, y = Artist, fill = listen_cat)) +
+  geom_tile(color = "white") +
+  scale_fill_brewer(palette = "BuPu") +
+  scale_y_discrete(limits = rev) +
+  theme_minimal() +
+  theme(
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
+    plot.title = element_text(
+      family = "sans",      
+      face = "bold",         
+      size = 16,            
+      hjust = 0            
+    ),
+    plot.subtitle = element_text(
+      family = "sans",      
+      size = 8,            
+      hjust = 0         
+    ),
+    plot.caption = element_text(
+      color = "darkgrey",
+      size = 8,
+      hjust = 0
+    )
+  ) +
+  labs(
+    title = "My Top 10 Artists by Month in 2025",
+    subtitle = "Noah Kahan was consistently a top artist, while Gracie Abrams dominated the spring and Renee Rapp dominated the fall",
+    x = "",
+    y = "",
+    fill = "Number of Listens",
+    caption = "Author: Eliza Palmer | Date: November 2026 | Data: Last.fm"
+  )
+```
+
 
